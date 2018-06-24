@@ -9,7 +9,7 @@ find_package(EXPAT)
 if(NOT EXPAT_FOUND)
 	include(ExternalProject)
 	ExternalProject_Add(expat_static
-		SOURCE_DIR ${THIRD_PARTY_DIR}/expat
+		GIT_REPOSITORY https://github.com/libexpat/libexpat.git
 		CONFIGURE_COMMAND ${THIRD_PARTY_DIR}/expat/configure
 		--prefix=${CMAKE_BINARY_DIR}
 		BUILD_COMMAND ${MAKE})

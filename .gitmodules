@@ -13,3 +13,4 @@
 [submodule "src/third_party/libcapn"]
 	path = src/third_party/libcapn
 	url = git://github.com/adobkin/libcapn
+	branch = 1.0.0

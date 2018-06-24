@@ -1,6 +1,6 @@
 [submodule "src/third_party/libstrophe"]
 	path = src/third_party/libstrophe
-	url = https://github.com/strophe/libstrophe.git
+	url = https://github.com/borischernov/libstrophe.git
 [submodule "src/third_party/jsoncpp"]
 	path = src/third_party/jsoncpp
 	url = https://github.com/open-source-parsers/jsoncpp.git

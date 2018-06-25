@@ -63,47 +63,47 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
 
         std::string responseBody;
     
-        curl_header header;
+        curl::curl_header header;
         header.add("Content-Type:application/json");
         header.add("Authorization:key=" + mAuthKey);
 
         mCurl.add(
-            curl_pair<CURLoption, curl_header>
+            curl::curl_pair<CURLoption, curl::curl_header>
             {CURLOPT_HTTPHEADER, header}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_URL, "https://gcm-http.googleapis.com/gcm/send"}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_SSLCERT, certFile}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_SSLKEY, certFile}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, bool>
+            curl::curl_pair<CURLoption, bool>
             {CURLOPT_SSL_VERIFYPEER, true}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_POSTFIELDS, payload}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, void*>
+            curl::curl_pair<CURLoption, void*>
             {CURLOPT_WRITEDATA, &responseBody}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, decltype(&GcmBackend::bodyWriteCb)>
+            curl::curl_pair<CURLoption, decltype(&GcmBackend::bodyWriteCb)>
             {CURLOPT_WRITEFUNCTION, bodyWriteCb}
         );
 

@@ -60,46 +60,46 @@ UbuntuBackend::send(const NotificationQueueT& notifications)
 
         std::string responseBody;
 
-        curl_header header;
+        curl::curl_header header;
         header.add("Content-Type:application/json");
 
         mCurl.add(
-            curl_pair<CURLoption, curl_header>
+            curl::curl_pair<CURLoption, curl::curl_header>
             {CURLOPT_HTTPHEADER, header}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_URL, "https://push.ubuntu.com/notify"}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_SSLCERT, certFile}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_SSLKEY, certFile}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, bool>
+            curl::curl_pair<CURLoption, bool>
             {CURLOPT_SSL_VERIFYPEER, true}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, std::string>
+            curl::curl_pair<CURLoption, std::string>
             {CURLOPT_POSTFIELDS, payload}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, void*>
+            curl::curl_pair<CURLoption, void*>
             {CURLOPT_WRITEDATA, &responseBody}
         );
 
         mCurl.add(
-            curl_pair<CURLoption, decltype(&UbuntuBackend::bodyWriteCb)>
+            curl::curl_pair<CURLoption, decltype(&UbuntuBackend::bodyWriteCb)>
             {CURLOPT_WRITEFUNCTION, bodyWriteCb}
         );
 

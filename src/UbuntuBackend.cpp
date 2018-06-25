@@ -107,8 +107,7 @@ UbuntuBackend::send(const NotificationQueueT& notifications)
         {
             mCurl.perform();
 
-            std::unique_ptr<long> responseCode
-            {mCurl.get_info<long>(CURLINFO_RESPONSE_CODE)};
+            long responseCode = mCurl.get_info<CURLINFO_RESPONSE_CODE>().get();
 
             /**
              * Error conditions - extracted from
@@ -139,18 +138,12 @@ UbuntuBackend::send(const NotificationQueueT& notifications)
              * 413 - "too-many-pending" - "Too many pending ns for this application"
              */
 
-            if(responseCode.get() == nullptr)
-            {
-                // connection error
-                retryQueue.insert(retryQueue.end(), it, notifications.cend());
-            }
-           
-            else if(*responseCode == 200)
+            if(responseCode == 200)
             {
                 // success
             }
 
-            else if(*responseCode == 503)
+            else if(responseCode == 503)
             {
                 // recoverable error
                 retryQueue.push_back(n);
@@ -163,7 +156,7 @@ UbuntuBackend::send(const NotificationQueueT& notifications)
             }
         }
 
-        catch(curl_easy_exception error)
+        catch(curl::curl_easy_exception error)
         {
             // DEBUG:
             std::cout << "DEBUG: curl exception!" << std::endl;

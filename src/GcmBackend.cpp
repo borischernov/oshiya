@@ -111,16 +111,9 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
         {
             mCurl.perform();
             
-            std::unique_ptr<long> responseCode
-            {mCurl.get_info<long>(CURLINFO_RESPONSE_CODE)};
-
-            if(responseCode.get() == nullptr)
-            {
-                // connection error
-                retryQueue.insert(retryQueue.end(), it, notifications.cend());
-            }
-
-            else if(*responseCode == 200)
+            long responseCode = mCurl.get_info<CURLINFO_RESPONSE_CODE>().get();
+            
+            if(responseCode == 200)
             {
                 bool retry {processSuccessResponse(responseBody, n)};
 
@@ -129,13 +122,11 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
                     retryQueue.push_back(n);
                 }
             }
-
-            else if(*responseCode >= 500 and *responseCode < 600)
+            else if(responseCode >= 500 and responseCode < 600)
             {
                 // recoverable error
                 retryQueue.push_back(n);
             }
-
             else
             {
                 // non-recoverable error
@@ -143,7 +134,7 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
             }
         }
 
-        catch(curl_easy_exception error)
+        catch(curl::curl_easy_exception error)
         {
             // DEBUG:
             std::cout << "DEBUG: curl exception!" << std::endl;

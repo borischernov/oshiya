@@ -1,4 +1,4 @@
-#Oshiya
+##Oshiya
 
 Oshyia is an app server for mobile XMPP clients as specified in [XEP-0357](http://xmpp.org/extensions/xep-0357.html). As such it receives push notification contents from those clients' XMPP servers and forwards them to the popular push notification services, e.g. APNS. It is implemented as XMPP component (see [XEP-0114](http://xmpp.org/extensions/xep-0114.html)).
 

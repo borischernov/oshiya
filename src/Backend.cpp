@@ -76,7 +76,7 @@ Backend::IdT Backend::makeBackendId(Type type,
 Backend::Type Backend::makeType(const std::string& typeStr)
 {
     if(typeStr == "apns") {return Type::Apns;}
-    if(typeStr == "gcm") {return Type::Gcm;}
+    if(typeStr == "fcm") {return Type::Fcm;}
     if(typeStr == "mozilla") {return Type::Mozilla;}
     if(typeStr == "ubuntu") {return Type::Ubuntu;}
     if(typeStr == "wns") {return Type::Wns;}
@@ -87,7 +87,7 @@ Backend::Type Backend::makeType(const std::string& typeStr)
 std::string Backend::getTypeStr(Type type)
 {
     if(type == Type::Apns) {return "apns";}
-    if(type == Type::Gcm) {return "gcm";}
+    if(type == Type::Fcm) {return "fcm";}
     if(type == Type::Mozilla) {return "mozilla";}
     if(type == Type::Ubuntu) {return "ubuntu";}
     if(type == Type::Wns) {return "wns";}

@@ -78,7 +78,7 @@ set(source_files
     Backend.cpp
     Base64.cpp
     ApnsBackend.cpp
-    GcmBackend.cpp
+    FcmBackend.cpp
     HttpBackend.cpp
     UbuntuBackend.cpp
     Registration.cpp

@@ -42,7 +42,7 @@ namespace Oshiya
         enum class Type
         {
             Apns,
-            Gcm,
+            Fcm,
             Mozilla,
             Ubuntu,
             Wns,

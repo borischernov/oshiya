@@ -9,13 +9,13 @@ Oshiya is part of a GSoC 2015 project. Please send feedback.
 ## Features
 Oshiya will support these push services:
 * [APNS (Apple push notification service)](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html)
-* [GCM (Google cloud messaging)](https://developers.google.com/cloud-messaging)
+* [FCM (Firebase cloud messaging)](https://firebase.google.com/docs/cloud-messaging/)
 * [Mozilla SimplePush](https://wiki.mozilla.org/WebAPI/SimplePush)
 * [Ubuntu Push](https://developer.ubuntu.com/en/start/platform/guides/push-notifications-client-guide)
 * [WNS (Windows notification service)](https://msdn.microsoft.com/en-us//library/windows/apps/hh913756.aspx)
-* HTTP (the same as GCM, but allows to specify custom URL; may be usefull for testing)
+* HTTP (the same as FCM, but allows to specify custom URL; may be usefull for testing)
 
-Currently only the GCM and APNS backends are usable. The Ubuntu backend is implemented but untested.
+Currently only the FCM and APNS backends are usable. The Ubuntu backend is implemented but untested.
 
 ## Prerequisites
 * libcurl 7.28.0 or later
@@ -51,7 +51,7 @@ components:
     pubsub_host: "pubsub.chatninja.org"
     backends:
       -
-        type: gcm
+        type: fcm
         # certfile has to contain both private key and certificate
         certfile: "/etc/ssl/chatninja.pem"
         app_name: "chatninja"

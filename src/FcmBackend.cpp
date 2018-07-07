@@ -16,7 +16,7 @@
  * along with Oshiya.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "GcmBackend.hpp"
+#include "FcmBackend.hpp"
 
 #include "SmartPointerUtil.hpp"
 #include "curl_header.h"
@@ -24,12 +24,12 @@
 
 using namespace Oshiya;
 
-GcmBackend::GcmBackend(const Jid& host,
+FcmBackend::FcmBackend(const Jid& host,
                    const std::string& appName,
                    const std::string& certFile,
                    const std::string& authKey)
     :
-        Backend(Backend::Type::Gcm,
+        Backend(Backend::Type::Fcm,
                 host,
                 appName,
                 certFile),
@@ -38,15 +38,15 @@ GcmBackend::GcmBackend(const Jid& host,
     startWorker();
 }
 
-GcmBackend::~GcmBackend()
+FcmBackend::~FcmBackend()
 {
 
 }
 
-Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notifications)
+Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notifications)
 {
     // DEBUG:
-    std::cout << "DEBUG: in GcmBackend::send" << std::endl;
+    std::cout << "DEBUG: in FcmBackend::send" << std::endl;
 
     NotificationQueueT retryQueue;
 
@@ -56,7 +56,7 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
 
         std::string payload {makePayload(n.token, n.payload)};
 
-        if(payload.size() > GcmParameters::MaxPayloadSize)
+        if(payload.size() > FcmParameters::MaxPayloadSize)
         {
             payload = makePayload(n.token, {});
         }
@@ -74,7 +74,7 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
 
         mCurl.add(
             curl::curl_pair<CURLoption, std::string>
-            {CURLOPT_URL, "https://gcm-http.googleapis.com/gcm/send"}
+            {CURLOPT_URL, "https://fcm.googleapis.com/fcm/send"}
         );
 
         mCurl.add(
@@ -103,7 +103,7 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
         );
 
         mCurl.add(
-            curl::curl_pair<CURLoption, decltype(&GcmBackend::bodyWriteCb)>
+            curl::curl_pair<CURLoption, decltype(&FcmBackend::bodyWriteCb)>
             {CURLOPT_WRITEFUNCTION, bodyWriteCb}
         );
 
@@ -150,7 +150,7 @@ Backend::NotificationQueueT GcmBackend::send(const NotificationQueueT& notificat
     return retryQueue;
 }
 
-std::size_t GcmBackend::bodyWriteCb(char* ptr,
+std::size_t FcmBackend::bodyWriteCb(char* ptr,
                                     std::size_t size,
                                     std::size_t nmemb,
                                     void* userdata)
@@ -167,7 +167,7 @@ std::size_t GcmBackend::bodyWriteCb(char* ptr,
     return bodyStr.size();
 }
 
-bool GcmBackend::processSuccessResponse(const std::string& responseBody,
+bool FcmBackend::processSuccessResponse(const std::string& responseBody,
                                    const PushNotification& notification)
 {
     Json::Value root;
@@ -219,7 +219,7 @@ bool GcmBackend::processSuccessResponse(const std::string& responseBody,
     return false;
 }
 
-std::string GcmBackend::makePayload(const std::string& token,
+std::string FcmBackend::makePayload(const std::string& token,
                                     const PayloadT& payload)
 {
     Json::Value jsonPayload {Json::objectValue};

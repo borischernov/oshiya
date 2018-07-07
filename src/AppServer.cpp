@@ -341,7 +341,7 @@ void AppServer::addRegistration(const Jid& user,
     else if(node == "register-push-gcm")
     {
         payloadOk = not (deviceId.empty() or token.empty());
-        backendType = Backend::Type::Gcm;
+        backendType = Backend::Type::Fcm;
     }
 
     else if(node == "register-push-mozilla")
@@ -647,11 +647,11 @@ std::unique_ptr<Backend> AppServer::makeBackendPtr(Backend::Type type,
             break;
         }
 
-        case Backend::Type::Gcm:
+        case Backend::Type::Fcm:
         {
             ret = std::unique_ptr<Backend>
             (
-                new GcmBackend {host, appName, certFile, authKey}
+                new FcmBackend {host, appName, certFile, authKey}
             );
             break;
         }

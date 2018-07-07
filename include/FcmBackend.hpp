@@ -25,22 +25,22 @@
 
 namespace Oshiya
 {
-    class GcmBackend : public Backend
+    class FcmBackend : public Backend
     {
         public:
         ///////
        
-        struct GcmParameters
+        struct FcmParameters
         {
             static const unsigned int MaxPayloadSize {4096};
         };
 
-        GcmBackend(const Jid& host,
+        FcmBackend(const Jid& host,
                    const std::string& appName,
                    const std::string& certFile,
                    const std::string& authKey);
 
-        ~GcmBackend() override;
+        ~FcmBackend() override;
 
         private:
         ////////

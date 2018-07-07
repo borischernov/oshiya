@@ -43,7 +43,7 @@ int main()
 {
     using namespace Oshiya;
 
-    std::cout << "Oshiya" << std::endl;
+    std::cout << "oshiya starting ..." << std::endl;
     std::cout << "config file: " << CONFIG_FILE << std::endl;
 
     std::signal(SIGINT, signalHandler);
@@ -55,6 +55,8 @@ int main()
     
     try
     {
+        std::cout << "starting components" << std::endl;
+
         Config::NodeT components {config.getNode("components")};
 
         for(Config::IteratorT it {components.begin()}; it != components.end(); ++it)
@@ -64,6 +66,12 @@ int main()
     }
 
     catch(const Config::InvalidConfig& e)
+    {
+        std::cout << "ERROR: " << e.what() << std::endl;
+        return -1;
+    }
+
+    catch (const std::exception& e)
     {
         std::cout << "ERROR: " << e.what() << std::endl;
         return -1;

@@ -11,7 +11,7 @@ Oshiya will support these push services:
 * [APNS (Apple push notification service)](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html)
 * [FCM (Firebase cloud messaging)](https://firebase.google.com/docs/cloud-messaging/)
 * [Mozilla SimplePush](https://wiki.mozilla.org/WebAPI/SimplePush)
-* [Ubuntu Push](https://developer.ubuntu.com/en/start/platform/guides/push-notifications-client-guide)
+* [Ubuntu Push](https://docs.ubuntu.com/phone/en/platform/guides/push-notifications-server-guide)
 * [WNS (Windows notification service)](https://msdn.microsoft.com/en-us//library/windows/apps/hh913756.aspx)
 * HTTP (the same as FCM, but allows to specify custom URL; may be usefull for testing)
 

@@ -149,6 +149,8 @@ Backend::NotificationQueueT HttpBackend::send(const NotificationQueueT& notifica
         mCurl.reset();
     }
 
+    std::cout << "DEBUG: leaving HttpBackend::send" << std::endl;
+
     return retryQueue;
 }
 

@@ -42,18 +42,16 @@ Component::Component(const Config& config)
 {
     xmpp_initialize();
 
-    const char* jid {mJid.full().c_str()};
-    const char* password {config.value("password").c_str()};
-
     // DEBUG:
-    std::cout << "setting component jid: " << jid << std::endl;
-    std::cout << "setting component password: " << password << std::endl;
+    std::cout << "in Component constructor; jid: " << std::string(mJid.full()) << std::endl;
 
-    xmpp_conn_set_jid(mConnection, jid);
-    xmpp_conn_set_pass(mConnection, password);
+    xmpp_conn_set_jid(mConnection, mJid.full().c_str());
+    xmpp_conn_set_pass(mConnection, config.value("password").c_str());
 
     using Type = InPacket::Type;
     using namespace std::placeholders;
+
+    std::cout << "adding stanza handlers" << std::endl;
 
     mStanzaDispatcher.addStanzaHandler<Type::AdhocCommand>(
         std::bind(&Component::commandReceived, this, _1, _2, _3, _4, _5)
@@ -70,12 +68,15 @@ Component::Component(const Config& config)
     mStanzaDispatcher.addStanzaHandler<Type::Invalid>(
         std::bind(&Component::invalidStanzaReceived, this, _1)
     );
+
+    std::cout << "leaving Component constructor" << std::endl;
+
 }
 
 Component::~Component()
 {
     // DEBUG:
-    std::cout << "in Component dtor" << std::endl;
+    std::cout << "in Component destructor" << std::endl;
 
     if(mXmppThread.get_id() != std::thread::id {})
     {

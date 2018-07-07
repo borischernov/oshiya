@@ -597,6 +597,8 @@ void AppServer::deleteRegCb(const std::string& node, std::time_t timestamp)
 std::unordered_map<Backend::IdT, std::unique_ptr<Backend>>
 AppServer::makeBackends()
 {
+    std::cout << "in makeBackends" << std::endl;
+
     Config config {getConfig()};
 
     Jid host {makeJid(config.value("host"))};
@@ -624,6 +626,8 @@ AppServer::makeBackends()
                            url)
         );
     }
+
+    std::cout << "leaving makeBackends" << std::endl;
 
     return ret;
 }
@@ -707,22 +711,22 @@ std::size_t AppServer::makeDeviceHash(const Jid& user, const std::string& device
 std::unordered_map<AppServer::NodeIdT, Registration> AppServer::readRegs() const
 {
     std::unordered_map<NodeIdT, Registration> ret; 
+    std::string regs_file {STORAGE_DIR + getJid().full()};
+
+    std::cout << "trying to read regs from file: " << regs_file << std::endl;
 
     std::ifstream iFile
     {
-        STORAGE_DIR + getJid().full(),
+        regs_file,
         std::ifstream::in
     };
 
-    iFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+//    iFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
-    if(not iFile.is_open())
-    {
+    if (not iFile.is_open()) {
         // TODO: log info
-        std::cout << "INFO: no input file, skipping reading registrations from disk"
-                  << std::endl;
+        std::cout << "no regs file, skipping reading registrations from disk" << std::endl;
     }
-
     else
     {
         while(not iFile.eof())
@@ -764,6 +768,8 @@ std::unordered_map<AppServer::NodeIdT, Registration> AppServer::readRegs() const
 
         iFile.close();
     }
+
+    std::cout << "leaving readRegs " << std::endl;
 
     return ret;
 }

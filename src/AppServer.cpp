@@ -362,6 +362,12 @@ void AppServer::addRegistration(const Jid& user,
         backendType = Backend::Type::Wns;
     }
 
+    else if(node == "register-push-http")
+    {
+        payloadOk = not (deviceId.empty() or token.empty());
+        backendType = Backend::Type::Http;
+    }
+
     else
     {
         sendCommandError(user,
@@ -606,6 +612,7 @@ AppServer::makeBackends()
         std::string appName {backendConfig.value("app_name", std::string {"any"})};
         std::string certFile {backendConfig.value("certfile")};
         std::string authKey {backendConfig.value("auth_key", std::string {})};
+        std::string url {backendConfig.value("url", std::string {})};
     
         ret.emplace(
             Backend::makeBackendId(type, host),
@@ -613,7 +620,8 @@ AppServer::makeBackends()
                            host,
                            appName,
                            certFile,
-                           authKey)
+                           authKey,
+                           url)
         );
     }
 
@@ -624,15 +632,15 @@ std::unique_ptr<Backend> AppServer::makeBackendPtr(Backend::Type type,
                                                    const Jid& host,
                                                    const std::string& appName,
                                                    const std::string& certFile,
-                                                   const std::string& authKey)
+                                                   const std::string& authKey,
+                                                   const std::string& url)
 {
     std::unique_ptr<Backend> ret;
     switch(type)
     {
         case Backend::Type::Apns:
         {
-            ret =
-            std::unique_ptr<Backend>
+            ret = std::unique_ptr<Backend>
             (
                 new ApnsBackend {host, appName,  certFile}
             );
@@ -641,8 +649,7 @@ std::unique_ptr<Backend> AppServer::makeBackendPtr(Backend::Type type,
 
         case Backend::Type::Gcm:
         {
-            ret =
-            std::unique_ptr<Backend>
+            ret = std::unique_ptr<Backend>
             (
                 new GcmBackend {host, appName, certFile, authKey}
             );
@@ -654,6 +661,15 @@ std::unique_ptr<Backend> AppServer::makeBackendPtr(Backend::Type type,
             ret = std::unique_ptr<Backend>
             (
                 new UbuntuBackend {host, appName, certFile}
+            );
+            break;
+        }
+
+        case Backend::Type::Http:
+        {
+            ret = std::unique_ptr<Backend>
+            (
+                new HttpBackend {host, appName, certFile, authKey, url}
             );
             break;
         }

@@ -80,6 +80,7 @@ Backend::Type Backend::makeType(const std::string& typeStr)
     if(typeStr == "mozilla") {return Type::Mozilla;}
     if(typeStr == "ubuntu") {return Type::Ubuntu;}
     if(typeStr == "wns") {return Type::Wns;}
+    if(typeStr == "http") {return Type::Http;}
     return Type::Invalid;
 }
 
@@ -90,6 +91,7 @@ std::string Backend::getTypeStr(Type type)
     if(type == Type::Mozilla) {return "mozilla";}
     if(type == Type::Ubuntu) {return "ubuntu";}
     if(type == Type::Wns) {return "wns";}
+    if(type == Type::Http) {return "http";}
     return "";
 }
 

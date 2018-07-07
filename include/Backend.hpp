@@ -46,6 +46,7 @@ namespace Oshiya
             Mozilla,
             Ubuntu,
             Wns,
+            Http,
             Invalid
         };
 

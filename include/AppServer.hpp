@@ -22,6 +22,7 @@
 #include <Component.hpp>
 #include <ApnsBackend.hpp>
 #include <GcmBackend.hpp>
+#include <HttpBackend.hpp>
 //#include <MozillaBackend.hpp>
 #include <UbuntuBackend.hpp>
 //#include <WnsBackend.hpp>
@@ -126,7 +127,8 @@ namespace Oshiya
                                                 const Jid& host,
                                                 const std::string& appName,
                                                 const std::string& certFile,
-                                                const std::string& authKey);
+                                                const std::string& authKey,
+                                                const std::string& url);
 
         Backend::Type getRegType(const Registration& reg);
 

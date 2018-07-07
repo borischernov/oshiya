@@ -1,26 +1,28 @@
-#Oshiya
+# Oshiya
 Oshyia is an app server for mobile XMPP clients as specified in [XEP-0357](http://xmpp.org/extensions/xep-0357.html). As such it receives push notification contents from those clients' XMPP servers and forwards them to the popular push notification services, e.g. APNS. It is implemented as XMPP component (see [XEP-0114](http://xmpp.org/extensions/xep-0114.html)).
 
 Clients can register using adhoc commands. Oshiya aims to be compatible with [mod_push](https://github.com/royneary/mod_push) concerning commands and app server behaviour. This allows XEP-0357-compatible clients using mod_push's internal app server on an ejabberd server or, as an alternative, any XEP-0114-compatible server running Oshiya.
 
 Oshiya is part of a GSoC 2015 project. Please send feedback.
 
-##Features
+## Features
 Oshiya will support these push services:
 * [APNS (Apple push notification service)](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html)
 * [GCM (Google cloud messaging)](https://developers.google.com/cloud-messaging)
 * [Mozilla SimplePush](https://wiki.mozilla.org/WebAPI/SimplePush)
 * [Ubuntu Push](https://developer.ubuntu.com/en/start/platform/guides/push-notifications-client-guide)
 * [WNS (Windows notification service)](https://msdn.microsoft.com/en-us//library/windows/apps/hh913756.aspx)
+* HTTP (the same as GCM, but allows to specify custom URL; may be usefull for testing)
 
 Currently only the GCM and APNS backends are usable. The Ubuntu backend is implemented but untested.
 
-##Prerequisites
+## Prerequisites
 * libcurl 7.28.0 or later
+* libjsoncpp
 * expat
 * cmake 2.8 or later
 
-##Installation
+## Installation
 ```bash
 git clone https://github.com/royneary/oshiya.git
 cd oshiya
@@ -33,19 +35,29 @@ make
 # no automatic file copying à la make install yet
 ```
 
-##Configuration
+## Configuration
 currently there's only an example config (mod_push's configuration is similar, see README.md over there):
 ```yaml
 components:
   -
-    host: "push.chatninja.org"
+    # server_host is ejabberd host to connect to
     server_host: "xmpp1.chatninja.org"
+    # port is ejabberd_service port
     port: 5237
+    # host / password have to match ejabberd_service configuration
+    host: "push.chatninja.org"
     password: "ABCDEF123456"
     pubsub_host: "pubsub.chatninja.org"
     backends:
       -
         type: gcm
+        # certfile has to contain both private key and certificate
+        certfile: "/etc/ssl/chatninja.pem"
+        app_name: "chatninja"
+        auth_key: "sdfF73HFk_fdhj8JFjfzqALkdj81dfjhs0jdEkf"
+      -
+        type: http
+        url: "http://test.example.org/push"
         certfile: "/etc/ssl/chatninja.pem"
         app_name: "chatninja"
         auth_key: "sdfF73HFk_fdhj8JFjfzqALkdj81dfjhs0jdEkf"
@@ -66,7 +78,7 @@ components:
         app_name: "chatninja"
 ```
 
-##Pubsub service configuration
+## Pubsub service configuration
 The pubsub service is where the XMPP servers publish the push notification contents. It has to fulfill XEP-0357's requirements. Here is how ejabberd having mod_pubsub and mod_push installed can be configured:
 ```yaml
 mod_pubsub:
@@ -74,4 +86,17 @@ mod_pubsub:
   nodetree : "tree"
   plugins:
     - "push"
+```
+
+## ejabberd_service configuration
+ejabberd_service has to be configured to allow XEP-0114 components to connect to ejabberd
+```yaml
+listen:
+  -
+    port: 5237
+    ip: "::"
+    module: ejabberd_service
+    hosts:
+      "push.chatninja.org"
+        password: "ABCDEF123456"
 ```

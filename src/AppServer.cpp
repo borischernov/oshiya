@@ -295,7 +295,7 @@ void AppServer::pushNotificationReceived(const Jid& from,
 
     for(const auto& f : payload.getFields())
     {
-        if(f.isValid() and (f.type.empty() or f.type == "text-single"))
+        if(f.isValid() and (f.type.empty() or f.type == "text-single" or f.type == "jid-single"))
         {
             backendPayload.insert({f.var, f.values.front()});
         }

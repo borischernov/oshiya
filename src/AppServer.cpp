@@ -467,8 +467,8 @@ void AppServer::addRegistration(const Jid& user,
     {
         "submit",
         {
-            {"hidden", "FORM_TYPE", {"http://jabber.org/protocol/pubsub#node_config"}},
-            {"", "pubsub#secret", {secret}}
+            {"hidden", "FORM_TYPE", {"http://jabber.org/protocol/pubsub#node_config"}}
+//            {"", "pubsub#secret", {secret}}
         }
     };
 

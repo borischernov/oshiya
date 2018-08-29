@@ -16,8 +16,8 @@
  * along with Oshiya.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef OSHIYA_GCM_BACKEND__H
-#define OSHIYA_GCM_BACKEND__H
+#ifndef OSHIYA_FCM_BACKEND__H
+#define OSHIYA_FCM_BACKEND__H
 
 #include "Backend.hpp"
 #include "json/json.h"

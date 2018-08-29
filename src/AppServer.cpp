@@ -338,7 +338,7 @@ void AppServer::addRegistration(const Jid& user,
         backendType = Backend::Type::Apns;   
     }
 
-    else if(node == "register-push-gcm")
+    else if(node == "register-push-fcm")
     {
         payloadOk = not (deviceId.empty() or token.empty());
         backendType = Backend::Type::Fcm;

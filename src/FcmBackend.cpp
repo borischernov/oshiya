@@ -66,6 +66,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
         curl::curl_header header;
         header.add("Content-Type:application/json");
         header.add("Authorization:key=" + mAuthKey);
+        std::cout << "DEBUG: FCM: AuthKey: " << mAuthKey << std::endl;
 
         mCurl.add(
             curl::curl_pair<CURLoption, curl::curl_header>
@@ -89,13 +90,14 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
 
         mCurl.add(
             curl::curl_pair<CURLoption, bool>
-            {CURLOPT_SSL_VERIFYPEER, true}
+            {CURLOPT_SSL_VERIFYPEER, false}
         );
 
         mCurl.add(
             curl::curl_pair<CURLoption, std::string>
             {CURLOPT_POSTFIELDS, payload}
         );
+        std::cout << "DEBUG: FCM: Payload: " << payload << std::endl;
 
         mCurl.add(
             curl::curl_pair<CURLoption, void*>
@@ -109,9 +111,12 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
 
         try
         {
+            std::cout << "DEBUG: FCM: about to perform()" << std::endl;
             mCurl.perform();
             
             long responseCode = mCurl.get_info<CURLINFO_RESPONSE_CODE>().get();
+            std::cout << "DEBUG: FCM: response code: " << responseCode << std::endl;
+            std::cout << "DEBUG: FCM: response body: " << responseBody << std::endl;
             
             if(responseCode == 200)
             {
@@ -133,7 +138,6 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
                 n.unregisterCb();
             }
         }
-
         catch(curl::curl_easy_exception error)
         {
             // DEBUG:

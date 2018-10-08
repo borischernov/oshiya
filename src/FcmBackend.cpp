@@ -113,7 +113,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
         {
             std::cout << "DEBUG: FCM: about to perform()" << std::endl;
             mCurl.perform();
-            
+            std::cout << "DEBUG: FCM: left perform()" << std::endl;
             long responseCode = mCurl.get_info<CURLINFO_RESPONSE_CODE>().get();
             std::cout << "DEBUG: FCM: response code: " << responseCode << std::endl;
             std::cout << "DEBUG: FCM: response body: " << responseBody << std::endl;

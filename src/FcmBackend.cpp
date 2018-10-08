@@ -77,7 +77,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
             curl::curl_pair<CURLoption, std::string>
             {CURLOPT_URL, "https://fcm.googleapis.com/fcm/send"}
         );
-
+/*
         mCurl.add(
             curl::curl_pair<CURLoption, std::string>
             {CURLOPT_SSLCERT, certFile}
@@ -87,10 +87,15 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
             curl::curl_pair<CURLoption, std::string>
             {CURLOPT_SSLKEY, certFile}
         );
-
+*/
         mCurl.add(
             curl::curl_pair<CURLoption, bool>
             {CURLOPT_SSL_VERIFYPEER, false}
+        );
+
+        mCurl.add(
+            curl::curl_pair<CURLoption, bool>
+            {CURLOPT_SSL_VERIFYHOST, false}
         );
 
         mCurl.add(

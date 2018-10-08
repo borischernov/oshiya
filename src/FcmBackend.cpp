@@ -62,7 +62,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
         }
 
         std::string responseBody;
-    
+/*    
         curl::curl_header header;
         header.add("Content-Type:application/json");
         header.add("Authorization:key=" + mAuthKey);
@@ -72,7 +72,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
             curl::curl_pair<CURLoption, curl::curl_header>
             {CURLOPT_HTTPHEADER, header}
         );
-
+*/
         mCurl.add(
             curl::curl_pair<CURLoption, std::string>
             {CURLOPT_URL, "https://fcm.googleapis.com/fcm/send"}
@@ -97,7 +97,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
             curl::curl_pair<CURLoption, bool>
             {CURLOPT_SSL_VERIFYHOST, false}
         );
-
+/*
         mCurl.add(
             curl::curl_pair<CURLoption, std::string>
             {CURLOPT_POSTFIELDS, payload}
@@ -113,7 +113,7 @@ Backend::NotificationQueueT FcmBackend::send(const NotificationQueueT& notificat
             curl::curl_pair<CURLoption, decltype(&FcmBackend::bodyWriteCb)>
             {CURLOPT_WRITEFUNCTION, bodyWriteCb}
         );
-
+*/
         try
         {
             std::cout << "DEBUG: FCM: about to perform()" << std::endl;

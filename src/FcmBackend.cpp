@@ -215,7 +215,7 @@ bool FcmBackend::processSuccessResponse(const std::string& responseBody,
         return false;
     }
 
-    std::string error {results.get("error", "").asString()};
+    std::string error {results[0].get("error", "").asString()};
 
     if(error == "Unavailable" or error == "InternalServerError")
     {
